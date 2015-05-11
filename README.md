@@ -12,3 +12,29 @@ CSS minifier (i.e., compressor).
 [![](https://img.shields.io/github/stars/websharks/css-minifier.svg?label=stars)](https://github.com/websharks/css-minifier/stargazers)
 [![](https://img.shields.io/github/downloads/websharks/css-minifier/latest/total.svg?label=downloads)](https://github.com/websharks/css-minifier/releases)
 [![](https://img.shields.io/packagist/dt/websharks/css-minifier.svg?label=packagist)](https://packagist.org/packages/websharks/css-minifier)
+
+---
+
+## Installation Instructions (Two Options)
+
+1. As a [Composer](https://packagist.org/packages/websharks/css-minifier) Dependency
+
+  ```json
+  {
+      "require": {
+          "websharks/css-minifier": "dev-master"
+      }
+  }
+  ```
+
+2. Or, Download the PHAR Binary
+  See: https://github.com/websharks/css-minifier/releases
+
+---
+
+## Usage Example
+
+```php
+$css = '.hello { font-family: World; }';
+$compressed_css = WebSharks\CssMinifier\Core::compress($css);
+```
