@@ -64,6 +64,41 @@ class Core
      */
     public function min()
     {
+        return $this->scssMin();
+    }
+
+    /**
+     * SCSS minifier.
+     *
+     * @since 15xxxx Adding SCSS compiler.
+     *
+     * @return string Output (minified) CSS.
+     */
+    public function scssMin()
+    {
+        if (!$this->css) {
+            return $this->css;
+        }
+        $scss = &static::$static[__FUNCTION__.'_scss'];
+
+        if (!isset($scss)) {
+            $scss = new \Leafo\ScssPhp\Compiler();
+            $scss->setFormatter(\Leafo\ScssPhp\Formatter\Compressed);
+            $scss->setImportPaths(array());
+        }
+        $this->css = $scss->compile($this->css);
+        $this->css = trim($this->css);
+    }
+
+    /**
+     * Self minifier.
+     *
+     * @since 15xxxx Adding SCSS compiler.
+     *
+     * @return string Output (minified) CSS.
+     */
+    public function selfMin()
+    {
         if (!$this->css) {
             return $this->css;
         }
@@ -81,7 +116,6 @@ class Core
                 '~=',
                 '=',
                 '~',
-                ':',
                 ';',
                 ',',
                 '>',
@@ -101,11 +135,11 @@ class Core
                 'de_spacifiables' => '/ *('.$de_spacifiables.') */',
                 'unnecessary_;s'  => '/;\}/',
             );
-            $static['with']    = array('', ' ', ' ', '${1}', '}');
-            $static['colors']  = '/(?P<context>[:,\h]+#)(?P<hex>[a-z0-9]{6})/i';
+            $static['with']   = array('', ' ', ' ', '${1}', '}');
+            $static['colors'] = '/(?P<context>[:,\h]+#)(?P<hex>[a-z0-9]{6})/i';
         }
         $this->css = preg_replace($static['replace'], $static['with'], $this->css);
-        $this->css = preg_replace_callback($static['colors'], array($this, 'maybeCompressCssColorCb'), $this->css);
+        $this->css = preg_replace_callback($static['colors'], array($this, 'selfMaybeCompressCssColorCb'), $this->css);
         $this->css = trim($this->css);
 
         return $this->css;
@@ -120,7 +154,7 @@ class Core
      *
      * @return string Full match with compressed HEX color code.
      */
-    protected function maybeCompressCssColorCb(array $m)
+    protected function selfMaybeCompressCssColorCb(array $m)
     {
         $m['hex'] = strtoupper($m['hex']); // Convert to uppercase for easy comparison.
 
