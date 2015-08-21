@@ -29,8 +29,7 @@
 
   "require": {
     "php": ">=5.3",
-    "ext-mbstring": "*",
-    "leafo/scssphp": "0.1.9"
+    "ext-mbstring": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
