@@ -96,6 +96,7 @@ class Core
                 ';',
                 ',',
                 '>',
+                ':',
             );
             $de_spacifiables = array_map(
                 function ($string) {
