@@ -110,9 +110,9 @@ class Core
                 'line_breaks'     => '/['."\r\n".']+/',
                 'extra_spaces'    => '/\s{2,}/',
                 'de_spacifiables' => '/ *('.$de_spacifiables.') */',
-                'unnecessary_;s'  => '/;\}/',
+                'unnecessary_;s'  => '/;(\}|$)/',
             );
-            $static['with']   = array('', ' ', ' ', '${1}', '}');
+            $static['with']   = array('', ' ', ' ', '${1}', '${1}');
             $static['colors'] = '/(?P<context>[:,\h]+#)(?P<hex>[a-z0-9]{6})/i';
         }
         $this->css = preg_replace($static['replace'], $static['with'], $this->css);
